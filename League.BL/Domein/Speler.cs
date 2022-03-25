@@ -35,7 +35,7 @@ namespace League.BL.Domein
                 ex.Data.Add("lengte", lengte);
                 throw ex;
             }
-            Lengte = Lengte;
+            Lengte = lengte;
         }
         public void ZetId(int id)
         {
@@ -62,9 +62,10 @@ namespace League.BL.Domein
             if (team == Team) throw new SpelerException("ZetTeam");
             if (Team != null)
             {
-                Team.VerwijderSpeler(this);
+                if (Team.HeeftSpeler(this))
+                    Team.VerwijderSpeler(this);
             }
-            team.VoegSpelerToe(this);
+            if (!team.HeeftSpeler(this)) team.VoegSpelerToe(this);
             Team = team;
         }
 

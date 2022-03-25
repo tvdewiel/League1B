@@ -42,17 +42,22 @@ namespace League.BL.Domein
             {
                 throw new TeamException("Verwijderspeler");
             }
-            speler.VerwijderTeam();
+            if (speler.Team==this)
+                speler.VerwijderTeam();
             _spelers.Remove(speler); 
         }
         public void VoegSpelerToe(Speler speler)
         {
             if (speler == null) throw new TeamException("VoegspelerToe");
             if (_spelers.Contains(speler)) throw new TeamException("VoegspelerToe");
-            speler.ZetTeam(this);
             _spelers.Add(speler);
+            if (speler.Team!=this)
+                speler.ZetTeam(this);
         }
-
+        public bool HeeftSpeler(Speler speler)
+        {
+            return _spelers.Contains(speler);
+        }
         public override bool Equals(object obj)
         {
             return obj is Team team &&
