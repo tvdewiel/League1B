@@ -30,10 +30,10 @@ namespace League.BL.Domein
         {
             if (lengte<150)
             {
-                //throw new SpelerException("ZetLengte");
-                SpelerException ex = new SpelerException("ZetLengte");
-                ex.Data.Add("lengte", lengte);
-                throw ex;
+                throw new SpelerException("ZetLengte");
+                //SpelerException ex = new SpelerException("ZetLengte");
+                //ex.Data.Add("lengte", lengte);
+                //throw ex;
             }
             Lengte = lengte;
         }

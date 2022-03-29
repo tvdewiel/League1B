@@ -19,7 +19,10 @@ namespace League.BL.Domein
             ZetStamnummer(stamnummer);
             ZetNaam(naam);
         }
-
+        public IReadOnlyList<Speler> Spelers()
+        {
+            return _spelers.AsReadOnly();
+        }
         public void ZetStamnummer(int stamnummer)
         {
             if (stamnummer <= 0) throw new TeamException("ZetStamnummer");
