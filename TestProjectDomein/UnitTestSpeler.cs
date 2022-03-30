@@ -10,17 +10,17 @@ namespace TestProjectDomein
         [Fact]
         public void ZetId_valid()
         {
-            Speler s = new Speler(10,"Jos",180,80);
-            Assert.Equal(10,s.Id);
+            Speler s = new Speler(10, "Jos", 180, 80);
+            Assert.Equal(10, s.Id);
             s.ZetId(1);
-            Assert.Equal(1,s.Id);
+            Assert.Equal(1, s.Id);
         }
         [Fact]
         public void ZetId_invalid()
         {
             Speler s = new Speler(10, "Jos", 180, 80);
             Assert.Equal(10, s.Id);
-            Assert.Throws<SpelerException>(()=>s.ZetId(0));
+            Assert.Throws<SpelerException>(() => s.ZetId(0));
             Assert.Equal(10, s.Id);
         }
         [Theory]
@@ -29,7 +29,7 @@ namespace TestProjectDomein
         public void ZetRugnummer_valid(int rugnr)
         {
             Speler s = new Speler(10, "Jos", 180, 80);
-            
+
             s.ZetRugnummer(rugnr);
             Assert.Equal(rugnr, s.Rugnummer);
         }
@@ -43,11 +43,11 @@ namespace TestProjectDomein
             Assert.Throws<SpelerException>(() => s.ZetRugnummer(rugnr));
         }
         [Theory]
-        [InlineData("Jeff","Jeff")]
-        [InlineData("Eden Hazard","Eden Hazard")]
-        [InlineData("Eden Hazard ","Eden Hazard")]
+        [InlineData("Jeff", "Jeff")]
+        [InlineData("Eden Hazard", "Eden Hazard")]
+        [InlineData("Eden Hazard ", "Eden Hazard")]
         [InlineData("   Eden Hazard ", "Eden Hazard")]
-        public void ZetNaam_valid(string naamin,string naamuit)
+        public void ZetNaam_valid(string naamin, string naamuit)
         {
             Speler s = new Speler(10, "Jos", 180, 80);
 
@@ -66,27 +66,63 @@ namespace TestProjectDomein
 
             Assert.Throws<SpelerException>(() => s.ZetNaam(naam));
         }
+        [Theory]
+        [InlineData(10, "Jos", 150, 80, 10, "Jos", 150, 80)]
+        [InlineData(1, " Jos ", 150, 50, 1, "Jos", 150, 50)]
+        [InlineData(1, "Jos", null, 80, 1, "Jos", null, 80)]
+        [InlineData(1, "Jos", 170, null, 1, "Jos", 170, null)]
+        public void ctor_valid(int id, string naam, int? lengte, int? gewicht, int vid, string vnaam, int? vlengte, int? vgewicht)
+        {
+            Speler s = new Speler(id, naam, lengte, gewicht);
+
+            Assert.Equal(vid, s.Id);
+            Assert.Equal(vnaam, s.Naam);
+            Assert.Equal(vlengte, s.Lengte);
+            Assert.Equal(vgewicht, s.Gewicht);
+        }
+        [Theory]
+        [InlineData(0, "Jos", 150, 80)]
+        [InlineData(1, "  ", 150, 50)]
+        [InlineData(1, "", 150, 50)]
+        [InlineData(1, null, 150, 50)]
+        [InlineData(1, " \n ", 150, 50)]
+        [InlineData(1, " \r ", 150, 50)]
+        [InlineData(1, "Jos", 149, 80)]
+        [InlineData(1, "Jos", 170, 49)]
+        public void ctor_invalid(int id, string naam, int? lengte, int? gewicht)
+        {
+            Assert.Throws<SpelerException>(() => new Speler(id, naam, lengte, gewicht));
+        }
         [Fact]
-        public void ctor_valid()
+        public void verwijderTeam_valid()
         {
             Speler s = new Speler(10, "Jos", 180, 80);
-
-            Assert.Equal(10,s.Id);
-            Assert.Equal("Jos",s.Naam);
-            Assert.Equal(180,s.Lengte);
-            Assert.Equal(80,s.Gewicht);
-
-            s = new Speler(10, "Jos", null, 80);
-            Assert.Equal(10, s.Id);
-            Assert.Equal("Jos", s.Naam);
-            Assert.Null(s.Lengte);
-            Assert.Equal(80, s.Gewicht);
-
-            s = new Speler(10, "Jos",180, null);
-            Assert.Equal(10, s.Id);
-            Assert.Equal("Jos", s.Naam);
-            Assert.Null(s.Gewicht);
-            Assert.Equal(180, s.Lengte);
+            Team t = new Team(1, "Antwerpen");
+            s.ZetTeam(t);
+            s.VerwijderTeam();
+            Assert.Null(s.Team);
+            Assert.DoesNotContain(s, t.Spelers());
+        }
+        [Fact]
+        public void ZetTeam_valid()
+        {
+            Speler s = new Speler(10, "Jos", 180, 80);
+            Team t = new Team(1, "Antwerpen");
+            Team t2 = new Team(1, "Gent"); //checkt ook equals
+            s.ZetTeam(t);
+            Assert.Equal(t2,s.Team);
+            Assert.Contains(s,t.Spelers());
+        }
+        [Fact]
+        public void ZetTeam_invalid()
+        {
+            Speler s = new Speler(10, "Jos", 180, 80);
+            Team t = new Team(1, "Antwerpen");
+            s.ZetTeam(t);
+            Assert.Throws<SpelerException>(()=>s.ZetTeam(null));
+            Assert.Throws<SpelerException>(() => s.ZetTeam(t));
+            Assert.Equal(t, s.Team);
+            Assert.Contains(s, t.Spelers());
         }
     }
 }

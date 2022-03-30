@@ -5,12 +5,14 @@ namespace League.BL.Domein
 {
     public class Speler
     {
-        public Speler(int id, string naam,  int? lengte, int? gewicht)
+        internal Speler(int id, string naam,  int? lengte, int? gewicht) : this(naam,lengte,gewicht)
         {
             ZetId(id);
+        }
+        internal Speler(string naam, int? lengte, int? gewicht)
+        {
             ZetNaam(naam);
-            //ZetRugnummer(rugnummer.Value);
-            if (lengte!=null) ZetLengte(lengte.Value);
+            if (lengte != null) ZetLengte(lengte.Value);
             if (gewicht.HasValue) ZetGewicht(gewicht.Value);
         }
 
@@ -52,11 +54,16 @@ namespace League.BL.Domein
             if ((rugnummer <= 0) || (rugnummer > 99)) throw new SpelerException("ZetRugnummer");
             Rugnummer = rugnummer;
         }
-        public void VerwijderTeam()
+        internal void VerwijderTeam()
         {
+            //Team t = Team;
+            //Team = null;
+            //if (t!=null) t.VerwijderSpeler(this);
+            if (Team.HeeftSpeler(this))
+                Team.VerwijderSpeler(this);
             Team = null;
         }
-        public void ZetTeam(Team team)
+        internal void ZetTeam(Team team)
         {
             if (team == null) throw new SpelerException("ZetTeam");
             if (team == Team) throw new SpelerException("ZetTeam");
