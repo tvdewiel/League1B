@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProjectDomein", "TestPr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "League.DL", "League.DL\League.DL.csproj", "{688B736A-D926-476E-8724-7476EF7543E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppDLtest", "ConsoleAppDLtest\ConsoleAppDLtest.csproj", "{57375DE9-2F19-4FFF-94F7-4BA138480E61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,12 +37,17 @@ Global
 		{688B736A-D926-476E-8724-7476EF7543E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{688B736A-D926-476E-8724-7476EF7543E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{688B736A-D926-476E-8724-7476EF7543E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57375DE9-2F19-4FFF-94F7-4BA138480E61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57375DE9-2F19-4FFF-94F7-4BA138480E61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57375DE9-2F19-4FFF-94F7-4BA138480E61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57375DE9-2F19-4FFF-94F7-4BA138480E61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A11C2383-313D-4A36-ADB9-CAD5BCCF022F} = {67FD294E-3A6B-43C4-9D3C-BF368B6BE2FA}
+		{57375DE9-2F19-4FFF-94F7-4BA138480E61} = {67FD294E-3A6B-43C4-9D3C-BF368B6BE2FA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A778FCE4-F1E1-4488-AA3B-718BE081E9B4}

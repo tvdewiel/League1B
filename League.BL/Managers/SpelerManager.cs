@@ -12,16 +12,32 @@ namespace League.BL.Managers
     public class SpelerManager        
     {
         private ISpelerRepository repo;
-        public void RegistreerSpeler(string naam,int? lengte,int? gewicht)
+
+        public SpelerManager(ISpelerRepository repo)
+        {
+            this.repo = repo;
+        }
+
+        //dit zijn spelers die nog niet tot een bepaald team behoren of behoord hebben
+        public Speler RegistreerSpeler(string naam,int? lengte,int? gewicht)
         {
             try
             {
                 Speler s = new Speler(naam, lengte, gewicht);
-                if (!repo.HeeftSpeler(s))
+                if (!repo.BestaatSpeler(s))
+                {                    
+                    s=repo.SchrijfSpelerInDB(s);
+                    return s;
+                }
+                else
                 {
-                    repo.SchrijfSpelerInDB(s);
+                    throw new SpelerManagerException("RegistreerSpeler - speler bestaat al");
                 }
             }
+            catch (SpelerManagerException)
+            {
+                throw;
+            }        
             catch(Exception ex)
             {
                 throw new SpelerManagerException("RegistreerSpeler",ex);

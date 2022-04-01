@@ -85,5 +85,9 @@ namespace League.BL.Domein
         {
             return HashCode.Combine(Id);
         }
+        public override string ToString()
+        {
+            return $"{Id},{Naam},{Gewicht},{Lengte}";
+        }
     }
 }
