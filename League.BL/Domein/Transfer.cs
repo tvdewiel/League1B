@@ -33,6 +33,28 @@ namespace League.BL.Domein
             ZetNieuwTeam(nieuwTeam);
             ZetPrijs(prijs);
         }
+        public Transfer(Speler speler, Team nieuwTeam, Team oudTeam, int prijs)
+        {
+            ZetSpeler(speler);
+            ZetNieuwTeam(nieuwTeam);
+            ZetOudTeam(oudTeam);
+            ZetPrijs(prijs);
+        }
+        // speler stopt
+        public Transfer(Speler speler, Team oudTeam)
+        {
+            ZetSpeler(speler);
+            ZetOudTeam(oudTeam);
+            ZetPrijs(0);
+        }
+        //speler is nieuw
+        public Transfer(Speler speler, Team nieuwTeam, int prijs)
+        {
+            ZetSpeler(speler);
+            ZetNieuwTeam(nieuwTeam);
+            ZetPrijs(prijs);
+        }
+       
         public int Id { get; private set; }
         public Speler Speler { get; private set; }
         public Team NieuwTeam { get; private set; }

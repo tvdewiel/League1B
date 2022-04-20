@@ -33,14 +33,13 @@ namespace League.DL
                     command.Parameters.Add(new SqlParameter("@naam", SqlDbType.NVarChar));
                     command.CommandText = query;
                     command.Parameters["@naam"].Value = s.Naam;
-
                     int n = (int)command.ExecuteScalar();
                     if (n > 0) return true;
                     else return false;
                 }
                 catch (Exception ex)
                 {
-                    throw new TeamRepoADOException("BestaatSpeler", ex);
+                    throw new SpelerRepoADOException("BestaatSpeler", ex);
                 }
                 finally
                 {

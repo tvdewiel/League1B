@@ -17,3 +17,4 @@ using System.Runtime.InteropServices;
 
 [assembly: Guid("60f68d73-1cb7-4dbe-a526-b08fc39369e5")]
 [assembly: InternalsVisibleTo("TestProjectDomein")]
+[assembly: InternalsVisibleTo("ConsoleAppDLtest")]
