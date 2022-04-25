@@ -81,5 +81,48 @@ namespace League.DL
                 conn.Close();
             }
         }
+        public void UpdateSpeler(Speler speler)
+        {
+            SqlConnection connection = getConnection();
+            string query = "UPDATE speler SET naam=@naam, rugnummer=@rugnummer,lengte=@lengte,"
+                + "gewicht=@gewicht WHERE id=@id";
+
+            connection.Open();
+            using (SqlCommand command = connection.CreateCommand())
+            {
+                try
+                {
+                    command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+                    command.Parameters.Add(new SqlParameter("@naam", SqlDbType.NVarChar));
+                    command.Parameters.Add(new SqlParameter("@lengte", SqlDbType.Int));
+                    command.Parameters.Add(new SqlParameter("@gewicht", SqlDbType.Int));
+                    command.Parameters.Add(new SqlParameter("@rugnummer", SqlDbType.Int));
+                    command.CommandText = query;
+                    command.Parameters["@id"].Value = speler.Id;
+                    command.Parameters["@naam"].Value = speler.Naam;
+                    if (speler.Lengte == null)
+                        command.Parameters["@lengte"].Value = DBNull.Value;
+                    else
+                        command.Parameters["@lengte"].Value = speler.Lengte;
+                    if (speler.Gewicht == null)
+                        command.Parameters["@gewicht"].Value = DBNull.Value;
+                    else
+                        command.Parameters["@gewicht"].Value = speler.Gewicht;
+                    if (speler.Rugnummer == null)
+                        command.Parameters["@rugnummer"].Value = DBNull.Value;
+                    else
+                        command.Parameters["@rugnummer"].Value = speler.Rugnummer;
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw new SpelerRepoADOException("UpdateSpeler", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
     }
 }

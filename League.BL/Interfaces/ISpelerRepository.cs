@@ -11,5 +11,6 @@ namespace League.BL.Interfaces
     {
         Speler SchrijfSpelerInDB(Speler s);
         bool BestaatSpeler(Speler s);
+        void UpdateSpeler(Speler speler);
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace League.BL.Managers
 {
-    public class SpelerManager        
+    public class SpelerManager
     {
         private ISpelerRepository repo;
 
@@ -19,14 +19,14 @@ namespace League.BL.Managers
         }
 
         //dit zijn spelers die nog niet tot een bepaald team behoren of behoord hebben
-        public Speler RegistreerSpeler(string naam,int? lengte,int? gewicht)
+        public Speler RegistreerSpeler(string naam, int? lengte, int? gewicht)
         {
             try
             {
                 Speler s = new Speler(naam, lengte, gewicht);
                 if (!repo.BestaatSpeler(s))
-                {                    
-                    s=repo.SchrijfSpelerInDB(s);
+                {
+                    s = repo.SchrijfSpelerInDB(s);
                     return s;
                 }
                 else
@@ -37,10 +37,34 @@ namespace League.BL.Managers
             catch (SpelerManagerException)
             {
                 throw;
-            }        
+            }
+            catch (Exception ex)
+            {
+                throw new SpelerManagerException("RegistreerSpeler", ex);
+            }
+        }
+        public void UpdateSpeler(Speler speler)
+        {
+            if (speler == null) throw new SpelerManagerException("UpdateSpeler - speler is null");
+            try
+            {
+                if (repo.BestaatSpeler(speler))
+                {
+                    //TODO check eigenschappen van speler of er wel veranderingen zijn
+                    repo.UpdateSpeler(speler);
+                }
+                else
+                {
+                    throw new SpelerManagerException("UpdateSpeler - speler niet gevonden");
+                }
+            }
+            catch (SpelerManagerException)
+            {
+                throw;
+            }
             catch(Exception ex)
             {
-                throw new SpelerManagerException("RegistreerSpeler",ex);
+                throw new SpelerManagerException("UpdateSpeler",ex);
             }
         }
     }

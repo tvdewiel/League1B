@@ -23,7 +23,7 @@ namespace League.BL.Managers
             {
                 Team t = new Team(stamnummer, naam);
                 if (!string.IsNullOrWhiteSpace(bijnaam)) t.ZetBijnaam(bijnaam);
-                if (!repo.BestaatTeam(t))
+                if (!repo.BestaatTeam(stamnummer))
                 {
                     repo.SchrijfTeamInDB(t);
                 }
@@ -39,6 +39,47 @@ namespace League.BL.Managers
             catch(Exception ex)
             {
                 throw new TeamManagerException("RegistreerTeam", ex);
+            }
+        }
+        public Team SelecteerTeam(int stamnummer)
+        {
+            try
+            {
+                if (repo.BestaatTeam(stamnummer))
+                {
+                    return repo.SelecteerTeam(stamnummer);
+                }
+                else
+                {
+                    throw new TeamManagerException("SelecteerTeam");
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new TeamManagerException("SelecteerTeam", ex);
+            }
+        }
+        public void UpdateTeam(Team team)
+        {
+            if (team == null) throw new TeamManagerException("updateteam - team is null");
+            try
+            {
+                if (repo.BestaatTeam(team.Stamnummer))
+                {
+                    repo.UpdateTeam(team);
+                }
+                else
+                {
+                    throw new TeamManagerException("updateteam - team niet gevonden");
+                }
+            }
+            catch (TeamManagerException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new TeamManagerException("updateteam", ex);
             }
         }
     }
