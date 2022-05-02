@@ -1,4 +1,5 @@
 ﻿using League.BL.Domein;
+using League.BL.DTO;
 using League.BL.Exceptions;
 using League.BL.Interfaces;
 using System;
@@ -80,6 +81,17 @@ namespace League.BL.Managers
             catch (Exception ex)
             {
                 throw new TeamManagerException("updateteam", ex);
+            }
+        }
+        public IReadOnlyList<TeamInfo> SelecteerTeams()
+        {
+            try
+            {
+                return repo.SelecteerTeams();
+            }
+            catch (Exception ex)
+            {
+                throw new TeamManagerException("SelecteerTeams");
             }
         }
     }

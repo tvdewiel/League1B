@@ -1,4 +1,5 @@
 ﻿using League.BL.Domein;
+using League.BL.DTO;
 using League.BL.Interfaces;
 using League.DL.Exceptions;
 using System;
@@ -51,7 +52,6 @@ namespace League.DL
                 }
             }
         }
-
         public void SchrijfTeamInDB(Team team)
         {
             SqlConnection connection = getConnection();
@@ -160,6 +160,37 @@ namespace League.DL
                 catch (Exception ex)
                 {
                     throw new TeamRepoADOException("UpdateTeam", ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+        public IReadOnlyList<TeamInfo> SelecteerTeams()
+        {
+            SqlConnection connection = getConnection();
+            string query = "SELECT stamnummer,naam,bijnaam FROM [dbo].[Team]";
+            List<TeamInfo> teams = new List<TeamInfo>();
+            using (SqlCommand command = connection.CreateCommand())
+            {
+                command.CommandText = query;
+                connection.Open();
+                try
+                {
+                    IDataReader reader = command.ExecuteReader(); //of SqlDataReader
+                    while (reader.Read())
+                    {
+                        string bijnaam = null;
+                        if (!reader.IsDBNull(reader.GetOrdinal("bijnaam"))) bijnaam = (string)reader["bijnaam"];
+                        teams.Add(new TeamInfo((int)reader["stamnummer"], (string)reader["naam"], bijnaam));
+                    }
+                    reader.Close();
+                    return teams;
+                }
+                catch (Exception ex)
+                {
+                    throw new TeamRepoADOException("selecteerTeams", ex);
                 }
                 finally
                 {

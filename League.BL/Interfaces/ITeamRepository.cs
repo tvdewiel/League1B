@@ -1,4 +1,5 @@
 ﻿using League.BL.Domein;
+using League.BL.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,6 @@ namespace League.BL.Interfaces
         bool BestaatTeam(int stamnummer);
         Team SelecteerTeam(int stamnummer);
         void UpdateTeam(Team team);
+        IReadOnlyList<TeamInfo> SelecteerTeams();
     }
 }
