@@ -1,4 +1,5 @@
 ﻿using League.BL.Domein;
+using League.BL.DTO;
 using League.BL.Exceptions;
 using League.BL.Interfaces;
 using System;
@@ -11,38 +12,46 @@ namespace League.BL.Managers
 {
     public class TransferManager
     {
-        private ITransferRepository repo;
+        private ITransferRepository transferRepo;
+        private ISpelerRepository spelerRepo;
+        private ITeamRepository teamRepo;
 
-        public TransferManager(ITransferRepository repo)
+        public TransferManager(ITransferRepository transferRepo, ISpelerRepository spelerRepo, ITeamRepository teamRepo)
         {
-            this.repo = repo;
+            this.transferRepo = transferRepo;
+            this.spelerRepo = spelerRepo;
+            this.teamRepo = teamRepo;
         }
-        public Transfer RegistreerTransfer(Speler speler,Team nieuwTeam,int prijs)
+
+        public Transfer RegistreerTransfer(SpelerInfo spelerInfo,TeamInfo nieuwTeamInfo,int prijs)
         {
-            if (speler == null) throw new TransferManagerException("RegistreerTransfer - speler is null");
+            if (spelerInfo == null) throw new TransferManagerException("RegistreerTransfer - speler is null");
             Transfer transfer = null;
             try
             {
+                Speler speler = spelerRepo.SelecteerSpeler(spelerInfo.id);
                 //speler stopt
-                if (nieuwTeam == null)
+                if (nieuwTeamInfo == null)
                 {
-                    if (speler.Team == null) throw new TransferManagerException("Registreertransfer - team is null");
+                    if (spelerInfo.teamNaam == null) throw new TransferManagerException("Registreertransfer - team is null");            
                     transfer = new Transfer(speler, speler.Team); //speler + oud team
                     speler.VerwijderTeam();
                 }
                 //nieuwe speler
-                else if (speler.Team == null)
+                else if (spelerInfo.teamNaam==null)
                 {
+                    Team nieuwTeam=teamRepo.SelecteerTeam(nieuwTeamInfo.stamnummer);
                     speler.ZetTeam(nieuwTeam);
                     transfer=new Transfer(speler,nieuwTeam,prijs);
                 }
                 //klassieke transfer
                 else
                 {
-                    transfer=new Transfer(speler, nieuwTeam,speler.Team,prijs);
+                    Team nieuwTeam = teamRepo.SelecteerTeam(nieuwTeamInfo.stamnummer);
+                    transfer =new Transfer(speler, nieuwTeam,speler.Team,prijs);
                     speler.ZetTeam(nieuwTeam);
                 }
-                return repo.SchrijfTransferInDB(transfer);
+                return transferRepo.SchrijfTransferInDB(transfer);
             }
             catch(Exception ex)
             {

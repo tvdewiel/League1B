@@ -60,14 +60,35 @@ namespace League.BL.Managers
                 throw new TeamManagerException("SelecteerTeam", ex);
             }
         }
-        public void UpdateTeam(Team team)
+        public void UpdateTeam(TeamInfo teamInfo)
         {
-            if (team == null) throw new TeamManagerException("updateteam - team is null");
+            if (teamInfo == null) throw new TeamManagerException("updateteam - team is null");
             try
             {
-                if (repo.BestaatTeam(team.Stamnummer))
+                if (repo.BestaatTeam(teamInfo.stamnummer))
                 {
-                    repo.UpdateTeam(team);
+                    bool changed = false;
+                    Team team = repo.SelecteerTeam(teamInfo.stamnummer);
+                    if (teamInfo.naam != team.Naam)
+                    {
+                        team.ZetNaam(teamInfo.naam);
+                        changed = true;
+                    }
+                    if (teamInfo.bijnaam != team.Bijnaam)
+                    {
+                        if (!string.IsNullOrWhiteSpace(teamInfo.bijnaam))
+                        {
+                            team.ZetBijnaam(teamInfo.naam);
+                            changed = true;
+                        }
+                        else
+                        {
+                            team.VerwijderBijnaam();
+                            changed = true;
+                        }
+                    }
+                    if (changed) repo.UpdateTeam(team);
+                    else throw new TeamManagerException("updateteam - no updates");
                 }
                 else
                 {

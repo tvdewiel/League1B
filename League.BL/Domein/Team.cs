@@ -38,6 +38,10 @@ namespace League.BL.Domein
             if (string.IsNullOrWhiteSpace(bijnaam)) throw new TeamException("ZetBijnaam");
             Bijnaam = bijnaam.Trim();
         }
+        public void VerwijderBijnaam()
+        {
+            Bijnaam = null;
+        }
         internal void VerwijderSpeler(Speler speler)
         {
             if (speler == null) throw new TeamException("Verwijderspeler");
