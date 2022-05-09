@@ -33,7 +33,8 @@ namespace League.UI
 
         private void UpdateSpelerButton_Click(object sender, RoutedEventArgs e)
         {
-
+            UpdateSpelerWindow updateSpelerWindow = new UpdateSpelerWindow();
+            updateSpelerWindow.ShowDialog();
         }
 
         private void RegistreerTeamButton_Click(object sender, RoutedEventArgs e)

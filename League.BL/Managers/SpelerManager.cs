@@ -62,14 +62,29 @@ namespace League.BL.Managers
                         speler.ZetLengte((int)spelerInfo.lengte);
                         changed = true;
                     }
+                    if ((spelerInfo.lengte.HasValue) && (!speler.Lengte.HasValue))
+                    {
+                        speler.ZetLengte((int)spelerInfo.lengte);
+                        changed = true;
+                    }
                     if ((speler.Gewicht.HasValue) && (speler.Gewicht != spelerInfo.gewicht))
                     { 
                         speler.ZetGewicht((int)spelerInfo.gewicht); 
                         changed = true; 
                     }
+                    if ((spelerInfo.gewicht.HasValue) && (!speler.Gewicht.HasValue))
+                    {
+                        speler.ZetGewicht((int) spelerInfo.gewicht);
+                        changed = true;
+                    }
                     if ((speler.Rugnummer.HasValue) && (speler.Rugnummer != spelerInfo.rugnummer))
                     {
                         speler.ZetRugnummer((int)spelerInfo.rugnummer); 
+                        changed = true;
+                    }
+                    if ((spelerInfo.rugnummer.HasValue) && (!speler.Rugnummer.HasValue))
+                    {
+                        speler.ZetRugnummer((int)spelerInfo.rugnummer);
                         changed = true;
                     }
                     if (!changed) throw new SpelerManagerException("UpdateSpeler - no changes");
