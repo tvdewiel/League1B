@@ -49,7 +49,8 @@ namespace League.UI
 
         private void RegistreerTransferButton_Click(object sender, RoutedEventArgs e)
         {
-
+            RegistreerTransferWindow registreerTransferWindow = new RegistreerTransferWindow();
+            registreerTransferWindow.ShowDialog();
         }
     }
 }
